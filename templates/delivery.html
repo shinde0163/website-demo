@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Attach Your Vehicle - PICK ME</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #000;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100vh;
+      padding: 50px;
+    }
+
+    .left-content {
+      flex: 1;
+      padding-right: 40px;
+      animation: slideInLeft 1.5s ease;
+    }
+
+    .left-content h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .left-content p {
+      font-size: 16px;
+      color: #ddd;
+      margin-bottom: 30px;
+      line-height: 1.6;
+      max-width: 550px;
+    }
+
+    .form-container {
+      background: #111;
+      padding: 30px 25px;
+      border-radius: 12px;
+      width: 360px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.05);
+      animation: slideInRight 1.5s ease;
+    }
+
+    .form-container h2 {
+      margin-bottom: 20px;
+      font-size: 22px;
+      letter-spacing: 1px;
+      color: #fff;
+    }
+
+    .form-container input,
+    .form-container select,
+    .form-container button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: none;
+      font-size: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .form-container input:focus,
+    .form-container select:focus {
+      outline: none;
+      background: white
+    }
+
+    .form-container button {
+      background: #fff;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .form-container button:hover {
+      background: #ddd;
+      transform: scale(1.05);
+    }
+
+    .phone-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .phone-group select {
+      width: 80px;
+    }
+
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @media (max-width: 900px) {
+      body {
+        flex-direction: column;
+        padding: 20px;
+        justify-content: center;
+      }
+
+      .left-content {
+        padding: 0;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .form-container {
+        width: 100%;
+        max-width: 400px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="left-content">
+    <h1>🚚 Attach Your Vehicle with <span style="color:#00BFFF;">PICK ME</span></h1>
+    <p>
+      📈 Boost your earnings by partnering with <strong>PICK ME</strong>.<br>
+      💼 Flexible working hours, fast onboarding process, and secure payments.<br>
+      💪 Join a trusted logistics platform serving millions across India.
+    </p>
+
+    <h1>💎 Why Choose <span style="color:#00BFFF;">PICK ME?</span></h1>
+    <p>
+      ⭐ We’re a reliable, tech-driven company that prioritizes drivers and delivery partners.<br>
+      🚀 Real-time tracking, 24/7 support, and a growing customer base.<br>
+      🤝 Partner with the best and grow with us.
+    </p>
+  </div>
+
+  <div class="form-container">
+    <h2>Vehicle Attach Register</h2>
+    <form action="/delivery" method="post">
+      <input type="text" name="full_name" placeholder="Full Name" required>
+
+      <!-- Phone Input with Country Code -->
+      <div class="phone-group">
+        <select name="country_code" required>
+          <option value="+91">🇮🇳+91</option>
+          <option value="+1">🇺🇸+1</option>
+          <option value="+44">🇬🇧+44</option>
+          <option value="+61">🇦🇺+61</option>
+          <option value="+971">🇦🇪+971</option>
+        </select>
+        <input type="tel" name="phone_number" placeholder="Phone Number" required pattern="[0-9]{7,15}">
+      </div>
+
+      <input type="text" name="vehicle_number" placeholder="Vehicle Number" required>
+
+      <select name="city" required>
+        <option value="">Select City</option>
+        <option value="BANGALORE">BANGALORE</option>
+        <option value="MUMBAI">MUMBAI</option>
+        <option value="DELHI">DELHI</option>
+        <option value="HYDERABAD">HYDERABAD</option>
+        <option value="CHENNAI">CHENNAI</option>
+        <option value="AHMEDABAD">AHMEDABAD</option>
+        <option value="JAIPURE">JAIPURE</option>
+        <option value="PUNE">PUNE</option>
+        <option value="KOLKATA">KOLKATA</option>
+        <option value="SURAT">SURAT</option>
+        <option value="LUCKNOW">LUCKNOW</option>
+        <option value="COIMBATORE">COIMBATORE</option>
+        <option value="INDORE">INDORE</option>
+        <option value="NAGPURE">NAGPURE</option>
+        <option value="CHANDIGARH">CHANDIGARH</option>
+        <option value="VADODARA">VADODARA</option>
+        <option value="LUDHIANA">LUDHIANA</option>
+        <option value="KOCHI">KOCHI</option>
+        <option value="NASHIK">NASHIK</option>
+        <option value="VISAKHAPATNAM">VISAKHAPATNAM</option>
+        <option value="KANPURE">KANPURE</option>
+      </select>
+
+      <select name="vehicle_type" required>
+        <option value="">Select Vehicle Type</option>
+        <option value="PICKUP / 8FT">PICKUP / 8FT</option>
+        <option value="2 WHEELER">2 WHEELER</option>
+        <option value="3 WHEELER ELECTRIC">3 WHEELER ELECTRIC</option>
+        <option value="TATA ACE">TATA ACE</option>
+        <option value="E LOADER">E LOADER</option>
+        <option value="3 WHEELER">3 WHEELER</option>
+        <option value="EICHER PRO 2049">EICHER PRO 2049</option>
+        <option value="EICHER 14FT">EICHER 14FT</option>
+        <option value="OTHERS">OTHERS</option>
+      </select>
+
+      <button type="submit">Register</button>
+    </form>
+  </div>
+</body>
+</html>

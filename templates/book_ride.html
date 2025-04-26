@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Ride</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            position: relative;
+            overflow-x: hidden;
+        }
+        .slogan-container {
+            width: 40%;
+            padding: 100px 20px 20px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .slogan {
+            font-size: 2em;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            font-weight: 600;
+            position: relative;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        .slogan::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"%3E%3Ccircle cx="5" cy="5" r="1" fill="rgba(255,255,255,0.5)" /%3E%3Ccircle cx="15" cy="15" r="1" fill="rgba(255,255,255,0.4)" /%3E%3C/svg%3E') repeat;
+            animation: glitter 5s linear infinite;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        @keyframes glow {
+            from { text-shadow: 0 0 5px rgba(255, 255, 255, 0.3), 0 0 10px rgba(255, 255, 255, 0.4); }
+            to { text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.5); }
+        }
+        @keyframes glitter {
+            0% { background-position: 0 0; }
+            100% { background-position: 40px 40px; }
+        }
+        header {
+            text-align: center;
+            padding: 30px;
+            font-size: 2em;
+            font-weight: 600;
+            animation: fadeIn 1s ease-in-out;
+            background: rgba(0, 0, 0, 0.95);
+            box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        .container {
+            width: 60%;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 100px 40px 20px;
+        }
+        form {
+            background-color: #111;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 12px 25px rgba(255, 255, 255, 0.08);
+            width: 100%;
+            max-width: 400px;
+            animation: slideIn 1s ease;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-size: 15px;
+            border: 1px solid #444;
+            background-color: #222;
+            color: #fff;
+        }
+        button {
+            background-color: #fff;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background-color: #ccc;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        .suggestions {
+            position: relative;
+        }
+        .suggestion-box {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #222;
+            border: 1px solid #444;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 10;
+        }
+        .suggestion-box div {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #444;
+        }
+        .suggestion-box div:hover {
+            background-color: #333;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .slogan-container {
+                width: 100%;
+                padding: 80px 20px 20px;
+                text-align: center;
+            }
+            .slogan {
+                font-size: 1.5em;
+            }
+            .container {
+                width: 100%;
+                justify-content: center;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>Book Your Ride</header>
+    <div class="slogan-container">
+        <div class="slogan">Book Fast, Ride Now!</div>
+        <div class="slogan">Your Ride, Your Way!</div>
+        <div class="slogan">Move Smart, Book Easy!</div>
+    </div>
+    <div class="container">
+        <form onsubmit="submitRideRequest(event)">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" placeholder="Enter your name" required>
+            <label for="phone">Phone Number</label>
+            <input type="text" id="phone" placeholder="Enter your phone number" required>
+            <label for="pickup">Pickup Location</label>
+            <div class="suggestions">
+                <input type="text" id="pickup" placeholder="Where should we pick you up?" required oninput="showSuggestions(this, 'pickup')">
+                <div id="pickup-suggestions" class="suggestion-box"></div>
+            </div>
+            <label for="drop_location">Drop Location</label>
+            <div class="suggestions">
+                <input type="text" id="drop_location" placeholder="Where do you want to go?" required oninput="showSuggestions(this, 'drop_location')">
+                <div id="drop_location-suggestions" class="suggestion-box"></div>
+            </div>
+            <label for="vehicleType">Vehicle Type</label>
+            <select id="vehicleType" required>
+                <option value="">-- Select Vehicle --</option>
+                <option value="PICKUP / 8FT">PICKUP / 8FT</option>
+                <option value="2 WHEELER">2 WHEELER</option>
+                <option value="3 WHEELER ELECTRIC">3 WHEELER ELECTRIC</option>
+                <option value="TATA ACE">TATA ACE</option>
+                <option value="E LOADER">E LOADER</option>
+                <option value="3 WHEELER">3 WHEELER</option>
+                <option value="EICHER PRO 2049">EICHER PRO 2049</option>
+                <option value="EICHER 14FT">EICHER 14FT</option>
+                <option value="OTHERS">OTHERS</option>
+            </select>
+            <button type="submit">Book Ride</button>
+        </form>
+    </div>
+    <script>
+        async function submitRideRequest(event) {
+            event.preventDefault();
+            const formData = {
+                name: document.getElementById("name").value.trim(),
+                phone: document.getElementById("phone").value.trim(),
+                pickup: document.getElementById("pickup").value.trim(),
+                drop_location: document.getElementById("drop_location").value.trim(),
+                vehicleType: document.getElementById("vehicleType").value
+            };
+            try {
+                const response = await fetch('/book-ride', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+                if (response.redirected) {
+                    window.location.href = response.url; // Redirect to processing.html
+                } else {
+                    const result = await response.json();
+                    alert(result.error || result.message);
+                }
+            } catch (error) {
+                alert("Error booking ride: " + error.message);
+                console.error(error);
+            }
+        }
+
+        async function showSuggestions(inputElem, type) {
+            const query = inputElem.value.trim();
+            const suggestionBox = document.getElementById(`${type}-suggestions`);
+
+            if (!query || query.length < 3) {
+                suggestionBox.innerHTML = "";
+                return;
+            }
+
+            try {
+                const response = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&lang=en`);
+                const data = await response.json();
+
+                suggestionBox.innerHTML = data.features.map(feature => {
+                    const name = `${feature.properties.name || ''}, ${feature.properties.city || ''}, ${feature.properties.country || ''}`.trim();
+                    return `<div onclick="selectSuggestion('${type}', '${name.replace(/'/g, "\\'")}')">${name}</div>`;
+                }).join("") || "<div>No suggestions available.</div>";
+            } catch (error) {
+                console.error("Error fetching suggestions:", error);
+                suggestionBoxingBox.innerHTML = "<div>Error fetching suggestions.</div>";
+            }
+        }
+
+        function selectSuggestion(type, name) {
+            document.getElementById(type).value = name;
+            document.getElementById(`${type}-suggestions`).innerHTML = "";
+        }
+    </script>
+</body>
+</html>

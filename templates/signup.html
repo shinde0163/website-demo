@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up - Trusted by Thousands</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #000;
+      color: #fff;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 60px;
+      overflow: hidden;
+    }
+
+    .form-wrapper {
+      width: 400px;
+      background: #111;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+      animation: slideInLeft 1s ease-out;
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+
+    .input-field {
+      position: relative;
+      margin-bottom: 25px;
+    }
+
+    .input-field input {
+      width: 100%;
+      padding: 12px 10px;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #888;
+      color: #fff;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .input-field label {
+      position: absolute;
+      top: 12px;
+      left: 10px;
+      font-size: 14px;
+      color: #aaa;
+      pointer-events: none;
+      transition: 0.2s ease all;
+    }
+
+    .input-field input:focus ~ label,
+    .input-field input:not(:placeholder-shown) ~ label {
+      top: -8px;
+      left: 5px;
+      font-size: 11px;
+      color: #fff;
+    }
+
+    .phone-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .country-code {
+      background-color: transparent;
+      border: none;
+      border-bottom: 1px solid #888;
+      padding: 12px 8px;
+      color: #bbb;
+      font-size: 15px;
+      cursor: pointer;
+      width: 90px;
+    }
+
+    .country-code:focus {
+      outline: none;
+      border-color: #fff;
+      color: #fff;
+    }
+
+    .toggle-pass {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #bbb;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      background: #fff;
+      color: #000;
+      font-weight: bold;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #e1e1e1;
+    }
+
+    .note {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #aaa;
+      text-align: center;
+    }
+
+    .note a {
+      color: #fff;
+      text-decoration: underline;
+    }
+
+    .trust-info {
+      width: 45%;
+      animation: fadeInRight 1.2s ease-out;
+    }
+
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .trust-info h3 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    .trust-info p {
+      font-size: 15px;
+      color: #ccc;
+      margin: 15px 0;
+      line-height: 1.6;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .trust-info p:nth-child(2) { animation-delay: 0.3s; }
+    .trust-info p:nth-child(3) { animation-delay: 0.6s; }
+    .trust-info p:nth-child(4) { animation-delay: 0.9s; }
+
+    @keyframes fadeInUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 5px #fff, 0 0 10px #888;
+      }
+      to {
+        text-shadow: 0 0 10px #fff, 0 0 20px #aaa;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-wrapper">
+    <h2>Sign Up</h2>
+    <form action="/signup" method="POST">
+
+      <div class="input-field">
+        <input type="text" name="name" id="name" placeholder=" " required>
+        <label for="name">Full Name</label>
+      </div>
+
+      <div class="input-field">
+        <input type="email" name="email" id="email" placeholder=" " required>
+        <label for="email">Email Address</label>
+      </div>
+
+      <div class="input-field phone-group">
+        <select class="country-code" name="country_code" required>
+          <option value="+91">🇮🇳 +91</option>
+          <option value="+1">🇺🇸 +1</option>
+          <option value="+44">🇬🇧 +44</option>
+          <option value="+971">🇦🇪 +971</option>
+          <option value="+61">🇦🇺 +61</option>
+        </select>
+        <input type="tel" name="phone" id="phone" placeholder=" " required>
+        <label for="phone" style="left: 105px;">Phone Number</label>
+      </div>
+
+      <div class="input-field">
+        <input type="password" name="password" id="password" placeholder=" " required>
+        <label for="password">Password</label>
+        <span class="toggle-pass" onclick="togglePassword('password')">👁</span>
+      </div>
+
+      <div class="input-field">
+        <input type="password" name="confirm_password" id="confirmPassword" placeholder=" " required>
+        <label for="confirmPassword">Confirm Password</label>
+        <span class="toggle-pass" onclick="togglePassword('confirmPassword')">👁</span>
+      </div>
+
+      <button type="submit">Create Account</button>
+
+      <div class="note">
+        By signing up, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+      </div>
+    </form>
+  </div>
+
+  <div class="trust-info">
+    <h3>Why Thousands Trust Us</h3>
+    <p>🚀 Fast, secure, and reliable service for every user.</p>
+    <p>🔒 We value your privacy — your data is encrypted end-to-end.</p>
+    <p>🌐 Trusted by businesses and individuals in over 50 countries.</p>
+    <p>💬 24/7 support to help you anytime, anywhere.</p>
+  </div>
+
+  <script>
+    function togglePassword(id) {
+      const field = document.getElementById(id);
+      field.type = field.type === "password" ? "text" : "password";
+    }
+  </script>
+
+</body>
+</html>

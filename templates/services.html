@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pick Me Instantly - Porter Clone</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #000;
+      color: #fff;
+    }
+
+    header {
+      background: #111;
+      padding: 20px;
+      font-size: 28px;
+      font-weight: bold;
+      color: white;
+      box-shadow: 0 4px 8px rgba(255,255,255,0.1);
+      letter-spacing: 2px;
+      text-align: center;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      background: #ffffff;
+      padding: 15px 0;
+    }
+
+    .navbar a {
+      text-decoration: none;
+      color: #000000;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .navbar a:hover {
+      color: #ccc;
+    }
+
+    .main-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 60px 40px;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .left-boxes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      max-width: 600px;
+    }
+
+    .grid-item {
+      background: #111;
+      padding: 20px;
+      width: 200px;
+      height: 120px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(255,255,255,0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: slideInUp 1s ease forwards;
+      opacity: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .grid-item img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+
+    .grid-item h3 {
+      font-size: 15px;
+      color: #fff;
+      text-align: center;
+    }
+
+    .grid-item:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
+    }
+
+    .right-text {
+      flex: 1;
+      max-width: 500px;
+      animation: fadeInRight 1.5s ease-in-out;
+    }
+
+    .right-text h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .right-text p {
+      font-size: 16px;
+      color: #ddd;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    @keyframes slideInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInRight {
+      from { opacity: 0; transform: translateX(50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @media (max-width: 768px) {
+      .main-section {
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 20px;
+      }
+
+      .left-boxes {
+        justify-content: center;
+      }
+
+      .right-text {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>PICK ME INSTANTLY</header>
+
+  <nav class="navbar">
+    <a href="/home">Home</a>
+    <a href="/book-ride">Vehicle Booking</a>
+    <a href="#">Delivery Services</a>
+    <a href="#">Pricing</a>
+    <a href="/contact">Contact Us</a>
+  </nav>
+
+  <section class="main-section">
+    <div class="left-boxes">
+      <div class="grid-item">
+        <img src="/static/service_rider.jpg" alt="Riders">
+        <h3>Riders</h3>
+      </div>
+      <div class="grid-item">
+        <img src="/static/service_driveng.jpg" alt="Driving & Delivering">
+        <h3>Driving & Delivering</h3>
+      </div>
+      <div class="grid-item">
+        <img src="/static/service_bike.jpg" alt="Bikes & Scooters">
+        <h3>Bikes & Scooters</h3>
+      </div>
+      <div class="grid-item">
+        <img src="/static/service_business.jpg" alt="Uber for Business">
+        <h3>Pick ME for Business</h3>
+      </div>
+      <div class="grid-item">
+        <img src="/static/service_instant.jpg" alt="Freight">
+        <h3>Instant Delivery</h3>
+      </div>
+    </div>
+
+    <div class="right-text">
+      <h1>Why Choose Pick Me Instantly?</h1>
+      <p>We offer 24x7 customer support to make your delivery experience seamless and stress-free.</p>
+      <p>Our team ensures safe, fast, and affordable logistics solutions tailored to your needs.</p>
+      <p>From bikes to freight, we’ve got you covered with instant and reliable service options.</p>
+    </div>
+  </section>
+
+</body>
+</html>

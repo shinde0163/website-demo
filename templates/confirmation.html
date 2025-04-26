@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ride Confirmation</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #1a1a1a, #333333);
+            padding: 40px;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+        .details {
+            margin: 20px auto;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+        .details p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .title {
+            font-size: 2.5em;
+            font-weight: 600;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+        }
+        button {
+            padding: 12px 24px;
+            margin: 10px;
+            font-size: 1.1em;
+            font-weight: 500;
+            background-color: #000000;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        button:hover {
+            background-color: #ffffff;
+            color: #000000;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            transform: scale(1.05);
+        }
+        #confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            opacity: 0.8;
+            animation: fall 5s linear infinite;
+        }
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="confetti"></div>
+    <div class="title" id="confirmation-title">Ride Request Accepted!</div>
+    <div class="details" id="ride-details">
+        <p><strong>Request ID:</strong> {{ request.id }}</p>
+        <p><strong>Passenger Name:</strong> {{ request.name }}</p>
+        <p><strong>Passenger Phone:</strong> {{ request.phone }}</p>
+        <p><strong>Pickup Location:</strong> {{ request.pickup }}</p>
+        <p><strong>Drop Location:</strong> {{ request.drop_location }}</p>
+        <p><strong>Vehicle Type:</strong> {{ request.vehicle_type }}</p>
+        <p><strong>Driver Name:</strong> {{ request.driver_name }}</p>
+        <p><strong>Driver Phone:</strong> {{ request.driver_phone }}</p>
+        <p><strong>Status:</strong> {{ request.status }}</p>
+        <p id="otp-section" style="display: {{ 'block' if request.status == 'accepted' else 'none' }};">
+            <strong>OTP:</strong> {{ request.otp }}<br>
+            Share this OTP with your driver to confirm the ride.
+        </p>
+    </div>
+    <button onclick="openWhatsApp('{{ request.driver_phone }}')">Contact Driver on WhatsApp</button>
+    <button onclick="window.location.href='/book-ride'">Book Another Ride</button>
+
+    <script>
+        // Function to check ride status periodically
+        function checkRideStatus(requestId) {
+            fetch(`/get-request-status/${requestId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const status = data.status;
+                    const otpSection = document.getElementById('otp-section');
+                    const confirmationTitle = document.getElementById('confirmation-title');
+                    const rideDetails = document.getElementById('ride-details');
+
+                    if (status === 'confirmed') {
+                        confirmationTitle.innerText = 'Ride Confirmed!';
+                        otpSection.style.display = 'none';
+                        triggerConfetti();
+                    } else if (status === 'accepted') {
+                        otpSection.style.display = 'block';
+                        setTimeout(() => checkRideStatus(requestId), 5000);
+                    } else if (status === 'pending') {
+                        window.location.href = `/processing-request/${requestId}`;
+                    } else {
+                        rideDetails.innerHTML = `<p>Ride status: ${status}</p>`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking ride status:', error);
+                });
+        }
+
+        // Function to open WhatsApp
+        function openWhatsApp(phone) {
+            let formattedPhone = phone.trim();
+            if (!formattedPhone.startsWith('+')) {
+                formattedPhone = '+91' + formattedPhone.replace(/^\+91/, '').replace(/\D/g, '');
+            }
+            const whatsappUrl = `https://wa.me/${formattedPhone.replace('+', '')}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Function to trigger confetti effect
+        function triggerConfetti() {
+            const confettiContainer = document.getElementById('confetti');
+            for (let i = 0; i < 100; i++) {
+                const confettiPiece = document.createElement('div');
+                confettiPiece.classList.add('confetti-piece');
+                confettiPiece.style.left = `${Math.random() * 100}vw`;
+                confettiPiece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confettiPiece.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                confettiPiece.style.animationDelay = `${Math.random() * 2}s`;
+                confettiContainer.appendChild(confettiPiece);
+            }
+        }
+
+        // Start checking ride status
+        const requestId = {{ request.id }};
+        checkRideStatus(requestId);
+    </script>
+</body>
+</html>

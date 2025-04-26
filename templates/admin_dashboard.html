@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard - PICK ME</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #000;
+      color: #fff;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .section {
+      margin-bottom: 30px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 8px;
+    }
+    .users-table, .drivers-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    .users-table th, .users-table td, .drivers-table th, .drivers-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .users-table th, .drivers-table th {
+      background-color: #222;
+    }
+    .action-btn {
+      padding: 5px 10px;
+      margin-right: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .delete-btn {
+      background-color: #dc3545;
+      color: #fff;
+    }
+    .update-btn {
+      background-color: #1d72b8;
+      color: #fff;
+    }
+    .error {
+      color: #ff4444;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .form-container {
+      margin-top: 10px;
+    }
+    .form-container input {
+      padding: 5px;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Admin Dashboard</h1>
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% else %}
+      <!-- User Management Section -->
+      <div class="section">
+        <h2>Manage Users</h2>
+        <table class="users-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in users %}
+              <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.phone }}</td>
+                <td>
+                  <form class="delete-user-form" action="/admin/delete_user/{{ user.id }}" method="POST" style="display:inline;">
+                    <button type="submit" class="action-btn delete-btn">Delete</button>
+                  </form>
+                  <form class="update-user-form" action="/admin/update_user/{{ user.id }}" method="GET" style="display:inline;">
+                    <button type="submit" class="action-btn update-btn">Update</button>
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% if update_user %}
+          <div class="form-container">
+            <h3>Update User</h3>
+            <form action="/admin/update_user/{{ update_user.id }}" method="POST">
+              <input type="text" name="name" value="{{ update_user.name }}" required>
+              <input type="email" name="email" value="{{ update_user.email }}" required>
+              <input type="text" name="phone" value="{{ update_user.phone }}" required>
+              <button type="submit" class="action-btn update-btn">Save</button>
+            </form>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Driver Management Section -->
+      <div class="section">
+        <h2>Manage Drivers</h2>
+        <table class="drivers-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Full Name</th>
+              <th>Phone Number</th>
+              <th>Vehicle Number</th>
+              <th>City</th>
+              <th>Vehicle Type</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for driver in drivers %}
+              <tr>
+                <td>{{ driver.id }}</td>
+                <td>{{ driver.full_name }}</td>
+                <td>{{ driver.phone_number }}</td>
+                <td>{{ driver.vehicle_number }}</td>
+                <td>{{ driver.city }}</td>
+                <td>{{ driver.vehicle_type }}</td>
+                <td>{{ driver.status }}</td>
+                <td>
+                  <form class="delete-driver-form" action="/admin/delete_driver/{{ driver.id }}" method="POST" style="display:inline;">
+                    <button type="submit" class="action-btn delete-btn">Delete</button>
+                  </form>
+                  <form class="update-driver-form" action="/admin/update_driver/{{ driver.id }}" method="GET" style="display:inline;">
+                    <button type="submit" class="action-btn update-btn">Update</button>
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% if update_driver %}
+          <div class="form-container">
+            <h3>Update Driver</h3>
+            <form class="driver-update-form" action="/admin/update_driver/{{ update_driver.id }}" method="POST">
+              <input type="text" name="full_name" value="{{ update_driver.full_name }}" required>
+              <input type="text" name="phone_number" value="{{ update_driver.phone_number }}" required>
+              <input type="text" name="vehicle_number" value="{{ update_driver.vehicle_number }}" required>
+              <input type="text" name="city" value="{{ update_driver.city }}" required>
+              <input type="text" name="vehicle_type" value="{{ update_driver.vehicle_type }}" required>
+              <input type="text" name="status" value="{{ update_driver.status }}" required>
+              <button type="submit" class="action-btn update-btn">Save</button>
+            </form>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+  <script>
+    document.querySelectorAll('.delete-driver-form, .driver-update-form').forEach(form => {
+      form.addEventListener('submit', function(e) {
+        if (this.method.toUpperCase() === 'POST') {
+          e.preventDefault();
+          const method = this.getAttribute('method').toUpperCase();
+          const action = this.getAttribute('action');
+          const formData = new FormData(this);
+          fetch(action, {
+            method: method,
+            body: formData,
+            headers: {
+              'Accept': 'text/html'
+            }
+          }).then(response => {
+            if (response.redirected) {
+              window.location.href = response.url;
+            } else {
+              window.location.href = '/admin_dashboard';
+            }
+          }).catch(error => {
+            console.error('Form submission error:', error);
+            window.location.href = '/admin_dashboard';
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

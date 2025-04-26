@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Driver Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #000, #333);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 15px;
+      width: 80%;
+      max-width: 1000px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+    }
+    .login-section {
+      flex: 1;
+      padding: 20px;
+      color: #fff;
+    }
+    .login-section h2 {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .login-section p {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #bbb;
+    }
+    .login-section input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 2px solid #666;
+      border-radius: 8px;
+      background: transparent;
+      color: #fff;
+      outline: none;
+      transition: border 0.3s ease;
+    }
+    .login-section input:focus {
+      border-color: #fff;
+    }
+    .login-section button {
+      padding: 12px 30px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .login-section button.login {
+      background-color: #1d72b8;
+      color: #fff;
+    }
+    .login-section button.login:hover {
+      background-color: #144a75;
+    }
+    .login-section button.cancel {
+      background-color: #b8211d;
+      color: #fff;
+    }
+    .login-section button.cancel:hover {
+      background-color: #831514;
+    }
+    .slogan-section {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      color: #fff;
+      animation: fadeIn 1.5s ease-out;
+    }
+    .slogan-section p {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    .welcome-message {
+      font-size: 24px;
+      font-weight: bold;
+      color: #00BFFF;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 191, 255, 0.5);
+    }
+    .button-group {
+      display: flex;
+      gap: 15px;
+    }
+    .attach-btn, .history-btn, .status-btn {
+      display: inline-block;
+      padding: 12px 25px;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .attach-btn {
+      background-color: #00BFFF;
+      color: #fff;
+    }
+    .attach-btn:hover {
+      background-color: #009acd;
+      transform: scale(1.05);
+    }
+    .history-btn {
+      background-color: #1d72b8;
+      color: #fff;
+      display: none;
+    }
+    .history-btn:hover {
+      background-color: #144a75;
+      transform: scale(1.05);
+    }
+    .history-btn i {
+      margin-right: 5px;
+    }
+    .status-btn.available {
+      background-color: #28a745;
+      color: #fff;
+    }
+    .status-btn.available:hover {
+      background-color: #218838;
+      transform: scale(1.05);
+    }
+    .status-btn.busy {
+      background-color: #dc3545;
+      color: #fff;
+    }
+    .status-btn.busy:hover {
+      background-color: #c82333;
+      transform: scale(1.05);
+    }
+    .status-message {
+      font-size: 18px;
+      margin-top: 20px;
+      color: #fff;
+    }
+    #requests, #current-ride, #history {
+      margin-top: 20px;
+      padding: 20px;
+      color: #fff;
+      width: 80%;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .request, .current-ride-item, .history-item {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+    }
+    .request p, .current-ride-item p, .history-item p {
+      margin: 5px 0;
+      font-size: 16px;
+    }
+    .request button, .current-ride-item button {
+      padding: 8px 16px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .request button.accept {
+      background-color: #28a745;
+      color: #fff;
+    }
+    .request button.accept:hover {
+      background-color: #218838;
+    }
+    .request button.reject {
+      background-color: #dc3545;
+      color: #fff;
+    }
+    .request button.reject:hover {
+      background-color: #c82333;
+    }
+    .request button.whatsapp, .current-ride-item button.whatsapp {
+      background-color: #25D366;
+      color: #fff;
+    }
+    .request button.whatsapp:hover, .current-ride-item button.whatsapp:hover {
+      background-color: #1DAF5A;
+    }
+    .otp-section {
+      margin-top: 10px;
+    }
+    .otp-section input {
+      padding: 8px;
+      margin-right: 5px;
+      border-radius: 5px;
+      border: 1px solid #666;
+      background: transparent;
+      color: #fff;
+    }
+    .otp-section button {
+      background-color: #28a745;
+      color: #fff;
+    }
+    .otp-section button:hover {
+      background-color: #218838;
+    }
+    #current-ride, #history {
+      display: none;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="login-section">
+      <h2>Driver Login</h2>
+      <p id="login-message">Enter your registered phone number to access your dashboard:</p>
+      <div id="welcome-message" class="welcome-message" style="display: none;"></div>
+      <input type="text" placeholder="Phone Number" id="phone-input">
+      <button class="login">Login</button>
+      <button class="cancel">Cancel</button>
+    </div>
+    <div class="slogan-section" id="slogan-section">
+      <p>If you haven't attached your vehicle yet, please do so:</p>
+      <div class="button-group" id="initial-buttons">
+        <a href="/delivery" class="attach-btn">Attach Vehicle</a>
+        <button class="history-btn" id="history-btn"><i class="fas fa-history"></i> View History</button>
+      </div>
+      <div class="button-group" id="status-buttons" style="display: none;">
+        <button class="status-btn available" id="available-btn">Available</button>
+        <button class="status-btn busy" id="busy-btn">Busy</button>
+        <button class="history-btn" id="history-btn-after-login"><i class="fas fa-history"></i> View History</button>
+      </div>
+      <p class="status-message" id="status-message" style="display: none;">Current Status: Loading...</p>
+    </div>
+  </div>
+
+  <div id="current-ride"></div>
+  <div id="requests"></div>
+  <div id="history"></div>
+
+  <script>
+    let driverPhone;
+    let requestInterval;
+    let currentRide = null;
+    let isFetching = false; // Flag to prevent multiple simultaneous fetches
+
+    // Utility function to escape special characters for HTML
+    function escapeHTML(str) {
+      return str.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const phoneInput = document.getElementById('phone-input');
+      const loginButton = document.querySelector('button.login');
+      const cancelButton = document.querySelector('button.cancel');
+      const loginMessage = document.getElementById('login-message');
+      const welcomeMessage = document.getElementById('welcome-message');
+      const historyButton = document.getElementById('history-btn');
+      const historyButtonAfterLogin = document.getElementById('history-btn-after-login');
+      const historyContainer = document.getElementById('history');
+      const sloganSection = document.getElementById('slogan-section');
+      const initialButtons = document.getElementById('initial-buttons');
+      const statusButtons = document.getElementById('status-buttons');
+      const statusMessage = document.getElementById('status-message');
+      const availableButton = document.getElementById('available-btn');
+      const busyButton = document.getElementById('busy-btn');
+      let historyVisible = false;
+
+      loginButton.addEventListener('click', async function() {
+        let inputPhone = phoneInput.value.trim();
+        if (!inputPhone) {
+          alert("Phone number is required to view requests!");
+          return;
+        }
+
+        let tempPhone = inputPhone;
+        if (!tempPhone.startsWith('+91')) {
+          tempPhone = '+91' + tempPhone.replace(/^\+91/, '');
+        }
+
+        const numPart = tempPhone.replace('+91', '').replace(/\D/g, '');
+        if (numPart.length !== 10 || isNaN(numPart)) {
+          alert("Invalid phone number. Please enter a 10-digit number with +91 prefix.");
+          return;
+        }
+
+        driverPhone = '+91' + numPart;
+
+        try {
+          const validationResponse = await fetch(`/check-driver-phone?phone=${encodeURIComponent(driverPhone)}`);
+          if (!validationResponse.ok) {
+            throw new Error('Failed to validate phone number');
+          }
+          const validationData = await validationResponse.json();
+          if (!validationData.exists) {
+            alert("You entered a wrong number. Please check the number or attach a vehicle with Pick Me.");
+            return;
+          }
+
+          loginMessage.style.display = 'none';
+          phoneInput.style.display = 'none';
+          loginButton.style.display = 'none';
+          cancelButton.style.display = 'none';
+          welcomeMessage.style.display = 'block';
+          welcomeMessage.innerHTML = `Welcome to Pick Me, ${validationData.full_name}`;
+          initialButtons.style.display = 'none';
+          sloganSection.querySelector('p').style.display = 'none';
+          statusButtons.style.display = 'flex';
+          statusMessage.style.display = 'block';
+          historyButton.style.display = 'none';
+          historyButtonAfterLogin.style.display = 'inline-block';
+
+          await fetchDriverStatus();
+          startFetchingRequests();
+        } catch (error) {
+          console.error('Login error:', error);
+          alert(`Error during login: ${error.message}`);
+        }
+      });
+
+      cancelButton.addEventListener('click', function() {
+        alert("Login cancelled");
+        phoneInput.value = '';
+        if (requestInterval) {
+          clearInterval(requestInterval);
+          requestInterval = null;
+        }
+        const requestsContainer = document.getElementById('requests');
+        if (requestsContainer) {
+          requestsContainer.innerHTML = '';
+        }
+        currentRide = null;
+        updateCurrentRide();
+        initialButtons.style.display = 'flex';
+        sloganSection.querySelector('p').style.display = 'block';
+        statusButtons.style.display = 'none';
+        statusMessage.style.display = 'none';
+        historyButton.style.display = 'inline-block';
+        historyButtonAfterLogin.style.display = 'none';
+      });
+
+      historyButton.addEventListener('click', async function() {
+        historyVisible = !historyVisible;
+        historyContainer.style.display = historyVisible ? 'block' : 'none';
+        historyButton.innerHTML = historyVisible ? '<i class="fas fa-history"></i> Hide History' : '<i class="fas fa-history"></i> View History';
+        if (historyVisible) {
+          await fetchHistory();
+        }
+      });
+
+      historyButtonAfterLogin.addEventListener('click', async function() {
+        historyVisible = !historyVisible;
+        historyContainer.style.display = historyVisible ? 'block' : 'none';
+        historyButtonAfterLogin.innerHTML = historyVisible ? '<i class="fas fa-history"></i> Hide History' : '<i class="fas fa-history"></i> View History';
+        if (historyVisible) {
+          await fetchHistory();
+        }
+      });
+
+      availableButton.addEventListener('click', async function() {
+        await updateDriverStatus('available');
+      });
+
+      busyButton.addEventListener('click', async function() {
+        await updateDriverStatus('busy');
+      });
+    });
+
+    async function fetchDriverStatus() {
+      if (!driverPhone) return;
+      const statusMessage = document.getElementById('status-message');
+      try {
+        const response = await fetch(`/get-driver-status?phone=${encodeURIComponent(driverPhone)}`);
+        if (!response.ok) {
+          throw new Error(`Server error: ${response.statusText}`);
+        }
+        const data = await response.json();
+        if (data.status) {
+          statusMessage.innerHTML = `Current Status: ${data.status.charAt(0).toUpperCase() + data.status.slice(1)}`;
+        } else {
+          statusMessage.innerHTML = 'Current Status: Unknown';
+        }
+      } catch (error) {
+        console.error('Fetch status error:', error);
+        statusMessage.innerHTML = `Current Status: Error fetching status`;
+      }
+    }
+
+    async function updateDriverStatus(status) {
+      if (!driverPhone) return;
+      const statusMessage = document.getElementById('status-message');
+      try {
+        const response = await fetch('/update-driver-status', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ driver_phone: driverPhone, status })
+        });
+        if (!response.ok) {
+          throw new Error(`Server error: ${response.statusText}`);
+        }
+        const result = await response.json();
+        alert(result.message);
+        statusMessage.innerHTML = `Current Status: ${status.charAt(0).toUpperCase() + status.slice(1)}`;
+      } catch (error) {
+        console.error('Update status error:', error);
+        alert(`Error updating status: ${error.message}`);
+      }
+    }
+
+    function startFetchingRequests() {
+      if (requestInterval) {
+        clearInterval(requestInterval);
+      }
+      fetchRequests();
+      requestInterval = setInterval(fetchRequests, 5000);
+    }
+
+    async function fetchRequests() {
+      if (!driverPhone || isFetching) return;
+      isFetching = true;
+
+      const container = document.getElementById('requests');
+      if (!container) {
+        console.error('Requests container not found');
+        isFetching = false;
+        return;
+      }
+      container.innerHTML = ''; // Clear previous content
+
+      try {
+        const response = await fetch(`/get-driver-requests?phone=${encodeURIComponent(driverPhone)}`);
+        if (!response.ok) {
+          throw new Error(`Server error: ${response.statusText}`);
+        }
+        
+        const rideRequests = await response.json();
+
+        if (!Array.isArray(rideRequests) || rideRequests.length === 0) {
+          container.innerHTML = '<p style="color:#fff;">No requests assigned to you.</p>';
+          isFetching = false;
+          return;
+        }
+
+        rideRequests.forEach(req => {
+          const requestDiv = document.createElement('div');
+          requestDiv.className = 'request';
+          requestDiv.innerHTML = `
+            <p><strong>Passenger:</strong> ${escapeHTML(req.name)}</p>
+            <p><strong>Pickup:</strong> ${escapeHTML(req.pickup)}</p>
+            <p><strong>Drop-off:</strong> ${escapeHTML(req.drop_location)}</p>
+            <p><strong>Contact:</strong> ${escapeHTML(req.phone)}</p>
+            <button class="accept" data-id="${req.id}" data-name="${escapeHTML(req.name)}" data-pickup="${escapeHTML(req.pickup)}" data-drop="${escapeHTML(req.drop_location)}" data-phone="${escapeHTML(req.phone)}">Accept</button>
+            <button class="reject" data-id="${req.id}">Reject</button>
+            <button class="whatsapp">WhatsApp</button>
+          `;
+          container.appendChild(requestDiv);
+
+          // Add event listeners
+          requestDiv.querySelector('.accept').addEventListener('click', () => {
+            respondToRequest(req.id, 'Accepted', req.name, req.pickup, req.drop_location, req.phone);
+          });
+          requestDiv.querySelector('.reject').addEventListener('click', () => {
+            respondToRequest(req.id, 'Rejected');
+          });
+          requestDiv.querySelector('.whatsapp').addEventListener('click', () => {
+            openWhatsApp(req.phone);
+          });
+        });
+      } catch (error) {
+        console.error('Fetch error:', error);
+        container.innerHTML = `<p style="color:#fff;">Error fetching requests: ${error.message}</p>`;
+      } finally {
+        isFetching = false;
+      }
+    }
+
+    async function fetchHistory() {
+      if (!driverPhone) return;
+
+      const container = document.getElementById('history');
+      if (!container) {
+        console.error('History container not found');
+        return;
+      }
+      container.innerHTML = '';
+
+      try {
+        const response = await fetch(`/get-driver-history?phone=${encodeURIComponent(driverPhone)}`);
+        if (!response.ok) {
+          throw new Error(`Server error: ${response.statusText}`);
+        }
+        
+        const history = await response.json();
+
+        if (!Array.isArray(history) || history.length === 0) {
+          container.innerHTML = '<p style="color:#fff;">No history available.</p>';
+          return;
+        }
+
+        history.forEach(req => {
+          const historyDiv = document.createElement('div');
+          historyDiv.className = 'history-item';
+          historyDiv.innerHTML = `
+            <p><strong>Passenger:</strong> ${escapeHTML(req.name)}</p>
+            <p><strong>Pickup:</strong> ${escapeHTML(req.pickup)}</p>
+            <p><strong>Drop-off:</strong> ${escapeHTML(req.drop_location)}</p>
+            <p><strong>Contact:</strong> ${escapeHTML(req.phone)}</p>
+            <p><strong>Status:</strong> ${escapeHTML(req.status)}</p>
+          `;
+          container.appendChild(historyDiv);
+        });
+      } catch (error) {
+        console.error('Fetch history error:', error);
+        container.innerHTML = `<p style="color:#fff;">Error fetching history: ${error.message}</p>`;
+      }
+    }
+
+    async function respondToRequest(requestId, response, name, pickup, drop_location, phone) {
+      if (response === 'Accepted' && currentRide) {
+        alert("You already have an active ride. Please complete it first.");
+        return;
+      }
+
+      try {
+        const res = await fetch('/driver-response', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ request_id: requestId, response })
+        });
+
+        if (!res.ok) {
+          throw new Error(`Server error: ${res.statusText}`);
+        }
+
+        const result = await res.json();
+        alert(result.message);
+
+        if (response === 'Accepted') {
+          currentRide = { requestId, name, pickup, drop_location, phone, status: 'accepted' };
+          updateCurrentRide();
+        }
+
+        setTimeout(fetchRequests, 0);
+      } catch (error) {
+        console.error('Error:', error);
+        alert(`Error processing request: ${error.message}`);
+      }
+    }
+
+    async function verifyOtp(requestId) {
+      const otpInput = document.getElementById(`otp-input-${requestId}`);
+      if (!otpInput) {
+        alert("OTP input not found. Please try again.");
+        return;
+      }
+      const otp = otpInput.value.trim();
+      if (!otp || otp.length !== 6 || isNaN(otp)) {
+        alert("Please enter a valid 6-digit OTP.");
+        return;
+      }
+
+      try {
+        const res = await fetch('/verify-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ request_id: requestId, otp })
+        });
+
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.error || `Server error: ${res.statusText}`);
+        }
+
+        const result = await res.json();
+        alert(result.message);
+        currentRide = null; // Clear current ride after confirmation
+        updateCurrentRide();
+        setTimeout(fetchRequests, 0); // Ensure UI update before fetching
+      } catch (error) {
+        console.error('Error verifying OTP:', error);
+        alert(`Error verifying OTP: ${error.message}`);
+      }
+    }
+
+    function updateCurrentRide() {
+      const container = document.getElementById('current-ride');
+      if (!container) {
+        console.error('Current ride container not found');
+        return;
+      }
+      container.innerHTML = '';
+
+      if (currentRide) {
+        container.style.display = 'block';
+        const rideDiv = document.createElement('div');
+        rideDiv.className = 'current-ride-item';
+        rideDiv.innerHTML = `
+          <p><strong>Current Ride:</strong></p>
+          <p><strong>Passenger:</strong> ${escapeHTML(currentRide.name)}</p>
+          <p><strong>Pickup:</strong> ${escapeHTML(currentRide.pickup)}</p>
+          <p><strong>Drop-off:</strong> ${escapeHTML(currentRide.drop_location)}</p>
+          <p><strong>Contact:</strong> ${escapeHTML(currentRide.phone)}</p>
+          <button class="whatsapp">WhatsApp</button>
+          <div class="otp-section">
+            <input type="text" id="otp-input-${currentRide.requestId}" placeholder="Enter OTP">
+            <button class="verify-otp">Verify OTP</button>
+          </div>
+        `;
+        container.appendChild(rideDiv);
+
+        // Add event listeners
+        rideDiv.querySelector('.whatsapp').addEventListener('click', () => {
+          openWhatsApp(currentRide.phone);
+        });
+        rideDiv.querySelector('.verify-otp').addEventListener('click', () => {
+          verifyOtp(currentRide.requestId);
+        });
+      } else {
+        container.style.display = 'none';
+      }
+    }
+
+    function openWhatsApp(phone) {
+      let formattedPhone = phone.trim();
+      if (!formattedPhone.startsWith('+')) {
+        formattedPhone = '+91' + formattedPhone.replace(/^\+91/, '').replace(/\D/g, '');
+      }
+      const whatsappUrl = `https://wa.me/${formattedPhone.replace('+', '')}`;
+      window.open(whatsappUrl, '_blank');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .navbar {
+      width: 100%;
+      background: #ffffff;
+      padding: 15px 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .slider {
+      display: flex;
+      white-space: nowrap;
+      animation: slide 12s linear infinite;
+    }
+
+    .slider span {
+      display: inline-block;
+      padding-right: 100%;
+      font-size: 22px;
+      font-weight: bold;
+      color: #000000;
+      letter-spacing: 2px;
+    }
+
+    @keyframes slide {
+      from { transform: translateX(100%); }
+      to { transform: translateX(-100%); }
+    }
+
+    .page-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      width: 90%;
+      max-width: 1200px;
+      margin-top: 100px;
+      gap: 40px;
+    }
+
+    .form-box {
+      flex: 1;
+      max-width: 450px;
+      background: #1a1a1a;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.08);
+      animation: fadeInLeft 1s ease-out;
+    }
+
+    @keyframes fadeInLeft {
+      from { opacity: 0; transform: translateX(-30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    h2 {
+      color: #fff;
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
+      background: #000;
+      border: 1px solid #444;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 15px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #fff;
+      outline: none;
+      box-shadow: 0 0 10px rgba(255,255,255,0.3);
+    }
+
+    button {
+      background: #fff;
+      color: #000;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    button:hover {
+      background: #ccc;
+      transform: scale(1.05);
+    }
+
+    .info-box {
+      flex: 1;
+      max-width: 500px;
+      animation: fadeInRight 1s ease-out;
+    }
+
+    @keyframes fadeInRight {
+      from { opacity: 0; transform: translateX(30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .info-box h3 {
+      font-size: 24px;
+      margin-bottom: 15px;
+      animation: pulse 1.5s infinite alternate;
+    }
+
+    .info-box p {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #ccc;
+      margin-bottom: 15px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    .info-box p:nth-child(2) { animation-delay: 0.3s; }
+    .info-box p:nth-child(3) { animation-delay: 0.6s; }
+    .info-box p:nth-child(4) { animation-delay: 0.9s; }
+    .info-box p:nth-child(5) { animation-delay: 1.2s; }
+    .info-box p:nth-child(6) { animation-delay: 1.5s; }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      from {
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff;
+      }
+      to {
+        text-shadow: 0 0 15px #007bff, 0 0 25px #007bff;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .page-wrapper {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .info-box {
+        max-width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <div class="slider">
+      <span>24X7 HOURS SERVICES — CONNECT ANYTIME — FAST & RELIABLE SUPPORT — </span>
+    </div>
+  </div>
+
+  <div class="page-wrapper">
+    <div class="form-box">
+      <h2>Contact Our Team</h2>
+      <form action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="4cc0454c-e2ad-47b6-a3db-d3079ee0bf3e">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <textarea name="message" rows="4" placeholder="Your Message" required></textarea>
+        <button type="submit">Submit →</button>
+      </form>
+    </div>
+
+    <div class="info-box">
+      <h3>Why Choose Us?</h3>
+      <p>✔ 24x7 Dedicated Customer Support</p>
+      <p>✔ Trusted by Thousands of Happy Clients</p>
+      <p>✔ Fastest Delivery Logistics in the Industry</p>
+      <p>✔ Seamless Communication and Real-Time Tracking</p>
+      <p>✔ Affordable, Scalable & Future-Ready Solutions</p>
+      <p>We simplify your logistics experience and deliver excellence with every interaction.</p>
+    </div>
+  </div>
+
+</body>
+</html>
